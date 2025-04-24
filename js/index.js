@@ -40,7 +40,7 @@ function loadMarkers() {
                 console.log(wc.geo_point_2d.lat, wc.geo_point_2d.lon);
                 items.push(WC);
                 // als er coordinaten beschikbaar zijn, kan je de addMarker functie gebruiken om een marker toe te voegen op de kaart
-                addMarker(WC.lat, WC.lon);
+                addMarker(WC.lon, WC.lat);
             })
         })
         .catch(function (error) {
@@ -49,9 +49,9 @@ function loadMarkers() {
 }
 
 
-function addMarker(lat, lon) {
+function addMarker(lon, lat) {
     // voeg een marker toe op lat, lon
-    let marker = L.marker([lat, lon]).addTo(map);
+    let marker = L.marker([lon, lat]).addTo(map);
     // Popups for markers
     marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
 }
