@@ -14,6 +14,6 @@ export default class WC_Brussel {
     }
 
     get htmlString() {
-        return `<div>${this._location}</div>`
+        return this._location;
     }
 }

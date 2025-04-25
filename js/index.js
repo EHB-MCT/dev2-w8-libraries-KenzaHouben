@@ -3,16 +3,11 @@ import WC_Brussel from "./WC_Brussel.js";
 // een lege lijst, want we gaan telkens loopen
 const items = [];
 
-let map = L.map('map').setView([50.84294259584643, 4.324465582871228], 13); // gebruik dit om de map gemakkelijk aan te spreken doorheen de applicatie
-
-// let popup = L.popup()
-//     .setLatLng([50.84345464295743, 4.325409130456444])
-//     .setContent("I am a standalone popup.")
-//     .openOn(map);
+let map = L.map('map').setView([50.84294259584643, 4.324465582871228], 13); // 13 is de zoomwaarde
 
 function init() {
     // initialise de kaart
-    // voeg een tile layer toe, met URL https://a.tile.openstreetmap.org/{z}/{x}/{y}.png
+    // tile layer -> allemaal vierkantjes, geplakt aan elkaar om een kaart te vormen. Die gaat bepalen wat jij grafisch wilt
     // vergeet openstreetmap attributie niet
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -36,11 +31,11 @@ function loadMarkers() {
             console.log(data);
             data.results.forEach(function (wc) {
                 console.log(wc);
-                const WC = new WC_Brussel(wc.geo_point_2d.lat, wc.geo_point_2d.lon);
-                console.log(wc.geo_point_2d.lat, wc.geo_point_2d.lon);
+                const WC = new WC_Brussel(wc.geo_point_2d.lat, wc.geo_point_2d.lon, wc.location);
+                console.log(wc.geo_point_2d.lat, wc.geo_point_2d.lon, wc.location);
                 items.push(WC);
                 // als er coordinaten beschikbaar zijn, kan je de addMarker functie gebruiken om een marker toe te voegen op de kaart
-                addMarker(WC.lon, WC.lat);
+                addMarker(WC.lon, WC.lat, WC.location);
             })
         })
         .catch(function (error) {
@@ -48,12 +43,15 @@ function loadMarkers() {
         })
 }
 
-
-function addMarker(lon, lat) {
+function addMarker(lon, lat, location) {
     // voeg een marker toe op lat, lon
     let marker = L.marker([lon, lat]).addTo(map);
     // Popups for markers
-    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+    // bindPopup -> betekenis online opzoeken
+    marker.bindPopup(location).openPopup();
+
+    let marker_2 = L.marker([50.84244901855835, 4.325050326798233]).addTo(map);
+    marker_2.bindPopup("MCT bij EhB").openPopup();
 }
 
 init();
